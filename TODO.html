@@ -1,31 +1,167 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PomPomPurín To-Do List</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    /* General page style */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #FFF9C4;
+      color: #6D4C41;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Container for the to-do list */
+    .todo-container {
+      background-color: #FFEB3B;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 350px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Title of the to-do list */
+    h1 {
+      font-size: 28px;
+      color: #6D4C41;
+      margin-bottom: 20px;
+      font-family: 'Comic Sans MS', cursive;
+    }
+
+    /* Input field for tasks */
+    .task-input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #6D4C41;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    /* Add task button */
+    .add-task-btn {
+      background-color: #FFEB3B;
+      color: #6D4C41;
+      border: 2px solid #6D4C41;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-task-btn:hover {
+      background-color: #FFEB5A;
+    }
+
+    /* Styling for the to-do list items */
+    .todo-item {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    /* Styling for the task list */
+    ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #FFF59D;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    li.completed {
+      background-color: #E1F5FE;
+      text-decoration: line-through;
+      color: #0288D1;
+    }
+
+    /* Checkbox when clicked */
+    input[type="checkbox"]:checked + label {
+      text-decoration: line-through;
+      color: #0288D1;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <img src="https://via.placeholder.com/150x100.png?text=PomPomPurín" alt="PomPomPurín" class="header-img">
-            <h1 class="title">PomPomPurín To-Do List</h1>
-        </header>
 
-        <div class="todo-container">
-            <input type="text" id="todo-input" placeholder="What do you need to do?" class="todo-input">
-            <button id="add-btn" class="add-btn">Add</button>
-        </div>
+  <div class="todo-container">
+    <h1>Aesthetic To-Do List</h1>
+    <input type="text" id="taskInput" class="task-input" placeholder="Add a new task..." />
+    <button class="add-task-btn" onclick="addTask()">Add Task</button>
+    <ul id="todoList">
+      <!-- Tasks will appear here -->
+    </ul>
+  </div>
 
-        <ul id="todo-list" class="todo-list"></ul>
+  <script>
+    // Function to add tasks to the to-do list
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskText = taskInput.value.trim();
 
-        <footer>
-            <img src="https://via.placeholder.com/50x50.png?text=Sticker" alt="PomPomPurín Sticker" class="footer-img">
-            <p>PomPomPurín loves to help you stay organized!</p>
-        </footer>
-    </div>
+      if (taskText !== "") {
+        const todoList = document.getElementById('todoList');
+        const listItem = document.createElement('li');
+        listItem.classList.add('todo-item');
 
-    <script src="script.js"></script>
+        // Create checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = 'task_' + new Date().getTime();  // Unique ID
+
+        // Create label for the task text
+        const label = document.createElement('label');
+        label.setAttribute('for', checkbox.id);
+        label.textContent = taskText;
+
+        // Append elements to the list item
+        listItem.appendChild(checkbox);
+        listItem.appendChild(label);
+        todoList.appendChild(listItem);
+
+        // Clear the input field after adding the task
+        taskInput.value = "";
+
+        // Event listener to mark task as completed
+        checkbox.addEventListener('change', function() {
+          if (checkbox.checked) {
+            listItem.classList.add('completed');
+          } else {
+            listItem.classList.remove('completed');
+          }
+        });
+      } else {
+        alert("Please enter a task!");
+      }
+    }
+  </script>
+
 </body>
 </html>
